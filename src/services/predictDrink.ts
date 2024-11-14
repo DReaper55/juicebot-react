@@ -1,16 +1,18 @@
 import * as tf from '@tensorflow/tfjs';
-import predModel from '../assets/model.json';
+import { FoodItem } from '../models/FoodEntity';
+import { DrinkItem } from '../models/DrinkEntity';
+import { store } from '../data/redux/store/reduxStore';
 
-let model;
+let model: tf.LayersModel;
 
 const loadModel = async () => {
   if (!model) {
-    model = await tf.loadLayersModel(predModel);
+    model = await tf.loadLayersModel('../assets/model.json');
   }
   return model;
 };
 
-export const predictDrink = async (food) => {
+export const predictDrink = async (food: FoodItem): Promise<DrinkItem> => {
   // Load model if not already loaded
   await loadModel();
 
@@ -28,11 +30,18 @@ export const predictDrink = async (food) => {
   const inputTensor = tf.tensor2d([features], [1, features.length]);
 
   // Perform prediction
-  const prediction = model.predict(inputTensor);
-  const predictedDrinkIndex = prediction.argMax(-1).dataSync()[0];
+  let prediction = model.predict(inputTensor);
+
+  if (Array.isArray(prediction)) { // Handle the case where prediction is an array of tensors
+     prediction = tf.stack(prediction); // Combine tensors into a single tensor if needed 
+  }
+
+  const predictedDrinkIndex = (prediction as tf.Tensor).argMax(-1).dataSync()[0];
+
+  const drinkStore = store.getState().drinkStore;
 
   // Assuming you have a mapping of index to drink names
-  const drinks = ["Drink 1", "Drink 2", "Drink 3"]; // Replace with your actual drink names
+  const drinks = drinkStore.list;
   const predictedDrink = drinks[predictedDrinkIndex];
 
   // Clean up tensors to avoid memory leaks

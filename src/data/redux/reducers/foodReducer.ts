@@ -4,7 +4,7 @@ import { FoodItem } from '../../../models/FoodEntity';
 
 const foodSlice = createSlice({
     name: 'foods',
-    initialState: { list: [] as FoodItem[], loading: false },
+    initialState: { list: [] as FoodItem[], loading: false, error: null },
     reducers: {},
     extraReducers: builder => {
       builder.addCase(fetchFoods.fulfilled, (state, action) => {

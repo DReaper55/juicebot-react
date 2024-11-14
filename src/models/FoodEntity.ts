@@ -50,3 +50,5 @@ export class FoodItem {
         );
     }
 }
+
+export interface FoodState { foods: { list: FoodItem[]; }; }

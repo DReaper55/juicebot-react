@@ -13,17 +13,20 @@ import {
 import storage from "redux-persist/lib/storage";
 
 import foodSlice from "../reducers/foodReducer";
+import drinkSlice from "../reducers/drinkReducer";
 
 const persistConfig = {
   key: "root",
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, foodSlice);
+const persistedFoodReducer = persistReducer(persistConfig, foodSlice);
+const persistedDrinkReducer = persistReducer(persistConfig, drinkSlice);
 
 const store = configureStore({
   reducer: {
-    foodStore: persistedReducer,
+    foodStore: persistedFoodReducer,
+    drinkStore: persistedDrinkReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

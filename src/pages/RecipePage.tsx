@@ -1,3 +1,5 @@
-export const RecipePage = () => {
+const RecipePage = () => {
     return (<></>)
 }
+
+export default RecipePage;
