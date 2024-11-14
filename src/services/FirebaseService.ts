@@ -1,23 +1,33 @@
-import admin from "firebase-admin";
-import serviceAccount from '../assets/firebase-adminsdk.json' assert {type: 'json'};
+import firebase from "firebase/app";
+import { Auth, getAuth } from 'firebase/auth';
+import { Firestore, getFirestore } from 'firebase/firestore';
+import { Database, getDatabase } from 'firebase/database';
 import config from "../types/config";
+
+
+const firebaseConfig = {
+    apiKey: config.firebaseApiKey,
+    authDomain: config.firebaseAuthDomain,
+    projectId: config.firebaseProjectId,
+    storageBucket: config.firebaseStorageBucket,
+    appId: config.firebaseAppId,
+    databaseURL: config.firebaseDBUrl,
+};
 
 class FirebaseService {
     private static instance: FirebaseService;
-    public auth?: admin.auth.Auth;
-    public firestore?: admin.firestore.Firestore;
-    public database?: admin.database.Database;
+    public auth?: Auth;
+    public firestore?: Firestore;
+    public database?: Database;
 
     private constructor() {
         if (!FirebaseService.instance) {
-            admin.initializeApp({
-                credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-                databaseURL: config.firebaseDBUrl,
-            });
+            const app = firebase.initializeApp(firebaseConfig);
 
-            this.auth = admin.auth();
-            this.firestore = admin.firestore();
-            this.database = admin.database();
+            // Initialize services
+            this.auth = getAuth(app);
+            this.firestore = getFirestore(app);
+            this.database = getDatabase(app);
 
             // Store the instance so it can be reused
             FirebaseService.instance = this;

@@ -6,6 +6,7 @@ export class FoodItem {
     carbs: number;
     fiber: number;
     sugar: number;
+    image: string;
 
     constructor(
         name: string,
@@ -14,7 +15,8 @@ export class FoodItem {
         fat: number,
         carbs: number,
         fiber: number,
-        sugar: number
+        sugar: number,
+        image: string,
     ) {
         this.name = name;
         this.calories = calories;
@@ -23,6 +25,7 @@ export class FoodItem {
         this.carbs = carbs;
         this.fiber = fiber;
         this.sugar = sugar;
+        this.image = image;
     }
 
     toJson(): string {
@@ -34,6 +37,7 @@ export class FoodItem {
             carbs: this.carbs,
             fiber: this.fiber,
             sugar: this.sugar,
+            image: this.image,
         });
     }
 
@@ -46,7 +50,8 @@ export class FoodItem {
             data.fat,
             data.carbs,
             data.fiber,
-            data.sugar
+            data.sugar,
+            data.image,
         );
     }
 }
