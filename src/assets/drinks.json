@@ -1,0 +1,148 @@
+{
+    "drinks": [
+        {
+            "name": "margarita",
+            "composition": [0, 60, 80, 20]
+        },
+        {
+            "name": "mojito",
+            "composition": [0, 80, 60, 0]
+        },
+        {
+            "name": "piña colada",
+            "composition": [0, 100, 40, 0]
+        },
+        {
+            "name": "cosmopolitan",
+            "composition": [0, 80, 60, 0]
+        },
+        {
+            "name": "bloody mary",
+            "composition": [60, 40, 40, 40]
+        },
+        {
+            "name": "whiskey sour",
+            "composition": [0, 60, 80, 20]
+        },
+        {
+            "name": "mai tai",
+            "composition": [0, 80, 60, 20]
+        },
+        {
+            "name": "old fashioned",
+            "composition": [20, 60, 20, 40]
+        },
+        {
+            "name": "daiquiri",
+            "composition": [0, 60, 80, 0]
+        },
+        {
+            "name": "pina colada mocktail",
+            "composition": [0, 100, 40, 0]
+        },
+        {
+            "name": "virgin mojito",
+            "composition": [0, 80, 60, 0]
+        },
+        {
+            "name": "virgin mary",
+            "composition": [60, 40, 40, 40]
+        },
+        {
+            "name": "shirley temple",
+            "composition": [0, 100, 40, 0]
+        },
+        {
+            "name": "nojito",
+            "composition": [0, 80, 60, 0]
+        },
+        {
+            "name": "cinderella",
+            "composition": [0, 100, 60, 0]
+        },
+        {
+            "name": "fruit punch",
+            "composition": [0, 100, 60, 0]
+        },
+        {
+            "name": "arnold palmer",
+            "composition": [0, 60, 60, 0]
+        },
+        {
+            "name": "sparkling lemonade",
+            "composition": [0, 80, 80, 0]
+        },
+        {
+            "name": "virgin piña colada",
+            "composition": [0, 100, 40, 0]
+        },
+        {
+            "name": "lemon lime bitters",
+            "composition": [0, 80, 60, 20]
+        },
+        {
+            "name": "spicy margarita",
+            "composition": [80, 60, 40, 20]
+        },
+        {
+            "name": "jalapeño martini",
+            "composition": [90, 40, 30, 10]
+        },
+        {
+            "name": "habanero daiquiri",
+            "composition": [100, 50, 30, 10]
+        },
+        {
+            "name": "spicy bloody mary",
+            "composition": [100, 30, 40, 50]
+        },
+        {
+            "name": "spicy ginger ale",
+            "composition": [70, 30, 50, 20]
+        },
+        {
+            "name": "fireball cocktail",
+            "composition": [90, 50, 20, 30]
+        },
+        {
+            "name": "spicy mule",
+            "composition": [80, 40, 60, 10]
+        },
+        {
+            "name": "spicy pineapple mojito",
+            "composition": [70, 60, 50, 10]
+        },
+        {
+            "name": "chili pepper cocktail",
+            "composition": [90, 40, 40, 20]
+        },
+        {
+            "name": "spicy watermelon lemonade",
+            "composition": [80, 70, 60, 10]
+        },
+        {
+            "name": "spicy cucumber cooler",
+            "composition": [70, 40, 60, 20]
+        },
+        {
+            "name": "spicy mango margarita",
+            "composition": [90, 60, 50, 10]
+        },
+        {
+            "name": "spicy cranberry cocktail",
+            "composition": [80, 50, 40, 30]
+        },
+        {
+            "name": "spicy tequila sunrise",
+            "composition": [70, 60, 50, 10]
+        },
+        {
+            "name": "spicy basil lemonade",
+            "composition": [80, 40, 60, 10]
+        },
+        {
+            "name": "spicy lime cooler",
+            "composition": [90, 50, 40, 20]
+        }
+    ]
+}
