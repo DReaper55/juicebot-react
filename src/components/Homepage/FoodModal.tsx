@@ -25,17 +25,25 @@ const FoodModal: React.FC<FoodModalProps> = ({ food, onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>{food.name}</h2>
-        <p>Best paired drink: {drink?.name}</p>
-        <button onClick={onClose}>Close</button>
-        <button onClick={() => navigate("/recipe", { state: { drink } })}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-xl font-semibold mb-4">{food.name}</h2>
+        <p className="mb-4">Best paired drink: {drink?.name}</p>
+        <button
+          className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+          onClick={onClose}
+        >
+          Close
+        </button>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => navigate("/recipe", { state: { drink } })}
+        >
           See Recipe
         </button>
       </div>
     </div>
-  );
+  );  
 };
 
 export default FoodModal;

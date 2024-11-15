@@ -8,7 +8,7 @@ import SearchBar from "../components/Homepage/SearchBar";
 import FoodModal from "../components/Homepage/FoodModal";
 
 const Homepage = () => {
-  const foods: FoodItem[] = useSelector((state: FoodState) => state.foods.list);
+  const foods: FoodItem[] = useSelector((state: FoodState) => state.foodStore.list);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);

@@ -4,6 +4,7 @@ export class DrinkItem {
     sweet: number;
     sour: number;
     bitter: number;
+    composition: number[];
     ingredients: string[];
     steps: string[];
     image: string;
@@ -17,6 +18,7 @@ export class DrinkItem {
         ingredients: string[],
         steps: string[],
         image: string,
+        composition: number[],
     ) {
         this.name = name;
         this.spicy = spicy;
@@ -26,6 +28,7 @@ export class DrinkItem {
         this.ingredients = ingredients;
         this.steps = steps;
         this.image = image;
+        this.composition = composition;
     }
 
     toJson(): string {
@@ -38,6 +41,7 @@ export class DrinkItem {
             ingredients: this.ingredients,
             steps: this.steps,
             image: this.image,
+            composition: this.composition,
         });
     }
 
@@ -51,7 +55,8 @@ export class DrinkItem {
             data.bitter,
             data.ingredients,
             data.steps,
-            data.image
+            data.image,
+            data.composition,
         );
     }
 }

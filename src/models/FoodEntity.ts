@@ -56,4 +56,4 @@ export class FoodItem {
     }
 }
 
-export interface FoodState { foods: { list: FoodItem[]; }; }
+export interface FoodState { foodStore: { list: FoodItem[]; }; }

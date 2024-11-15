@@ -1,6 +1,6 @@
-import firebase from "firebase/app";
-import { Auth, getAuth } from 'firebase/auth';
-import { Firestore, getFirestore } from 'firebase/firestore';
+import {initializeApp} from "firebase/app";
+// import { Auth, getAuth } from 'firebase/auth';
+// import { Firestore, getFirestore } from 'firebase/firestore';
 import { Database, getDatabase } from 'firebase/database';
 import config from "../types/config";
 
@@ -16,17 +16,17 @@ const firebaseConfig = {
 
 class FirebaseService {
     private static instance: FirebaseService;
-    public auth?: Auth;
-    public firestore?: Firestore;
+    // public auth?: Auth;
+    // public firestore?: Firestore;
     public database?: Database;
 
     private constructor() {
         if (!FirebaseService.instance) {
-            const app = firebase.initializeApp(firebaseConfig);
+            const app = initializeApp(firebaseConfig);
 
             // Initialize services
-            this.auth = getAuth(app);
-            this.firestore = getFirestore(app);
+            // this.auth = getAuth(app);
+            // this.firestore = getFirestore(app);
             this.database = getDatabase(app);
 
             // Store the instance so it can be reused
