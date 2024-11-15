@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { DrinkItem } from "../../models/DrinkEntity";
 import { FoodItem } from "../../models/FoodEntity";
 import { predictDrink } from "../../services/predictDrink";
+import RecipeTitle from "../Recipe/RecipeTitle";
 
 interface FoodModalProps {
   food: FoodItem;
@@ -25,10 +26,10 @@ const FoodModal: React.FC<FoodModalProps> = ({ food, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-xl font-semibold mb-4">{food.name}</h2>
-        <p className="mb-4">Best paired drink: {drink?.name}</p>
+        <p className="mb-4 text-xl font-semibold">Best paired drink for {food.name}</p>
+        {drink && <RecipeTitle recipe={drink!} />}
         <button
           className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
           onClick={onClose}
