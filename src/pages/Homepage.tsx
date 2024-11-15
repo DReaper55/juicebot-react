@@ -34,7 +34,7 @@ const Homepage = () => {
     <div className="container mx-auto">
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 md:grid-cols-4 gap-4">
         {filteredFoods.map((food, index) => (
           <FoodCard key={index} food={food} onClick={handleFoodClick} />
         ))}
