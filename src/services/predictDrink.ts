@@ -5,10 +5,16 @@ import { store } from "../data/redux/store/reduxStore";
 import { Regularizer } from "@tensorflow/tfjs-layers/dist/regularizers";
 import { fetchDrinks } from "../data/redux/actions/drinkActions";
 
+interface ScalerData {
+  mean: number[];
+  scale: number[];
+}
 
-const loadScalerData = async () => {
-  const meanResponse = await fetch('src/assets/mean.json');
-  const scaleResponse = await fetch('src/assets/scale.json');
+const loadScalerData = async (): Promise<ScalerData> => {
+  const [meanResponse, scaleResponse] = await Promise.all([
+    fetch("src/assets/mean.json"),
+    fetch("src/assets/scale.json"),
+  ]);
 
   const mean = await meanResponse.json();
   const scale = await scaleResponse.json();
@@ -16,10 +22,8 @@ const loadScalerData = async () => {
   return { mean, scale };
 };
 
-const scaleFeatures = (features: any, mean: any, scale: any) => {
-  return features.map((feature: any, index: number) => {
-    return (feature - mean[index]) / scale[index];
-  });
+const scaleFeatures = (features: number[], mean: number[], scale: number[]): number[] => {
+  return features.map((feature, index) => (feature - mean[index]) / scale[index]);
 };
 
 class L2 extends Regularizer {
@@ -28,12 +32,11 @@ class L2 extends Regularizer {
 
   constructor(config: { l2?: number }) {
     super();
-    this.l2 = config.l2 == null ? 0.01 : config.l2;
+    this.l2 = config.l2 ?? 0.01;
   }
 
   apply(x: tf.Tensor): tf.Scalar {
-    const sumOfSquares = tf.sum(tf.square(x));
-    return tf.mul(this.l2, sumOfSquares) as tf.Scalar;
+    return tf.mul(this.l2, tf.sum(tf.square(x))) as tf.Scalar;
   }
 
   getConfig() {
@@ -44,67 +47,44 @@ class L2 extends Regularizer {
 // Register the L2 regularizer
 tf.serialization.registerClass(L2);
 
-let model: tf.LayersModel;
+let model: tf.LayersModel | null = null;
 
-const loadModel = async () => {
+const loadModel = async (): Promise<tf.LayersModel> => {
   if (!model) {
     model = await tf.loadLayersModel("src/assets/model.json");
   }
   return model;
 };
 
+const calculateDistance = (a: number[], b: number[]): number => {
+  return Math.sqrt(a.reduce((sum, value, index) => sum + Math.pow(value - b[index], 2), 0));
+};
+
 export const predictDrink = async (food: FoodItem): Promise<DrinkItem> => {
-  // Load model if not already loaded
-  await loadModel();
+  // Load model and scaler data
+  const [loadedModel, { mean, scale }] = await Promise.all([loadModel(), loadScalerData()]);
 
-  // Prepare the features array
-  const features: number[] = [
-    food.calories,
-    food.protein,
-    food.fat,
-    food.carbs,
-    food.fiber,
-    food.sugar,
-  ];
-
-  const { mean, scale } = await loadScalerData();
-
-  // Scale the features
+  // Prepare and scale features
+  const features: number[] = [food.calories, food.protein, food.fat, food.carbs, food.fiber, food.sugar];
   const scaledFeatures = scaleFeatures(features, mean, scale);
 
-  // Convert the features array to a tensor and reshape it as necessary
-  const inputTensor = tf.tensor3d(
-    [scaledFeatures.map((f) => [f])],
-    [1, scaledFeatures.length, 1]
-  );
+  // Create input tensor
+  const inputTensor = tf.tensor3d([scaledFeatures.map(f => [f])], [1, scaledFeatures.length, 1]);
 
   // Perform prediction
-  let prediction = model.predict(inputTensor);
+  let prediction = loadedModel.predict(inputTensor) as tf.Tensor;
 
+  // Handle prediction if it is an array
   if (Array.isArray(prediction)) {
-    // Handle the case where prediction is an array of tensors
-    prediction = tf.stack(prediction); // Combine tensors into a single tensor if needed
+    prediction = tf.stack(prediction);
   }
 
+  // Fetch drinks data from Redux store
   store.dispatch(fetchDrinks());
-  const drinkStore = store.getState().drinkStore;
+  const drinks: DrinkItem[] = store.getState().drinkStore.list;
 
-  // Assuming you have a mapping of index to drink names
-  const drinks = drinkStore.list;
-
-  // Function to calculate Euclidean distance
-  const calculateDistance = (a: number[], b: number[]): number => {
-    return Math.sqrt(
-      a.reduce((sum, value, index) => sum + Math.pow(value - b[index], 2), 0)
-    );
-  };
-
-  // Find the closest drink
-  const distances = drinks.map((drink) => {
-    return calculateDistance([...prediction.dataSync()], drink.composition);
-  });
-
-  // Find the index of the closest drink
+  // Find the closest drink based on Euclidean distance
+  const distances = drinks.map(drink => calculateDistance([...prediction.dataSync()], drink.composition));
   const closestIndex = distances.indexOf(Math.min(...distances));
 
   const predictedDrink = drinks[closestIndex];
