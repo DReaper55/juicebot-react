@@ -1,50 +1,113 @@
-# React + TypeScript + Vite
+# JuiceBot Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demonstrates the use of a prediction model to recommend the best drink to pair with a food. It also shows steps on how to make the drink, and the ingredients needed.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- **Food Search**: Search for a food in the database that you'll like a drink recommendation for.
+- **Drink Recommendation**: Predict the drink that best pairs with the selected food.
+- **Drink Recipe**: View the steps to take in making the drink.
+- **Containerized Application**: The app is fully containerized using Docker and serves static assets with `serve`.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Getting Started
 
-- Configure the top-level `parserOptions` property like this:
+### Prerequisites
+- **Node.js**: Install the latest LTS version.
+- **Docker**: Install Docker Desktop for containerization.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/DReaper55/juicebot-react.git
+   cd juicebot-react
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the application locally:
+   ```bash
+   npm start
+   ```
+
+---
+
+## Deployment with Docker
+
+### Building and Running the Docker Image
+1. Build the Docker image:
+   ```bash
+   docker build -t juicebot-react .
+   ```
+
+2. Run the container:
+   ```bash
+   docker run -p 3000:3000 juicebot-react
+   ```
+
+3. Access the application in your browser at `http://localhost:3000`.
+
+---
+
+## Directory Structure
+```
+src/
+├── assets/                  # Static assets (models, JSON files, etc.)
+├── components/              # React components
+├── store/                   # Redux store and slices
+├── utils/                   # Helper functions and utilities
+└── App.tsx                  # Main application entry point
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+## Asset Paths
+Static assets are stored in the `public` directory for easy resolution. Update asset paths as follows:
+```javascript
+export const AssetPaths = {
+    DRINK_DATASET: '/assets/drinks.json',
+    MODEL: '/assets/model.json',
+    MODEL_MEAN: '/assets/mean.json',
+    MODEL_SCALE: '/assets/scale.json',
+    MODEL_WEIGHTS: '/assets/weights.bin'
+};
 ```
+
+Ensure assets are in the `public/assets` directory for correct loading.
+
+---
+
+## Troubleshooting
+
+### Asset Not Loading
+- Verify the asset paths in the browser developer tools.
+- Ensure the assets are copied into the `public/assets` directory.
+
+### Docker Issues
+- Inspect the container's `dist` directory to verify the presence of static files:
+  ```bash
+  docker exec -it <container-id> sh
+  ls /app/dist/assets
+  ```
+
+---
+
+## Future Improvements
+- Implement backend APIs for managing dynamic data.
+- Improve mobile and desktop responsiveness.
+- Add more food data.
+
+---
+
+## Contributing
+Feel free to open issues or submit pull requests for any enhancements or fixes.
+
+---
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
