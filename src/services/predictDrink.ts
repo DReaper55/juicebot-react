@@ -4,6 +4,7 @@ import { DrinkItem } from "../models/DrinkEntity";
 import { store } from "../data/redux/store/reduxStore";
 import { Regularizer } from "@tensorflow/tfjs-layers/dist/regularizers";
 import { fetchDrinks } from "../data/redux/actions/drinkActions";
+import { AssetPaths } from "../assets";
 
 interface ScalerData {
   mean: number[];
@@ -12,8 +13,8 @@ interface ScalerData {
 
 const loadScalerData = async (): Promise<ScalerData> => {
   const [meanResponse, scaleResponse] = await Promise.all([
-    fetch("src/assets/mean.json"),
-    fetch("src/assets/scale.json"),
+    fetch(AssetPaths.MODEL_MEAN),
+    fetch(AssetPaths.MODEL_SCALE),
   ]);
 
   const mean = await meanResponse.json();
@@ -51,7 +52,7 @@ let model: tf.LayersModel | null = null;
 
 const loadModel = async (): Promise<tf.LayersModel> => {
   if (!model) {
-    model = await tf.loadLayersModel("src/assets/model.json");
+    model = await tf.loadLayersModel(AssetPaths.MODEL);
   }
   return model;
 };

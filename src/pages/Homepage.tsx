@@ -8,20 +8,30 @@ import SearchBar from "../components/Homepage/SearchBar";
 import FoodModal from "../components/Homepage/FoodModal";
 
 const Homepage = () => {
-  const foods: FoodItem[] = useSelector((state: FoodState) => state.foodStore.list);
+  const foods: FoodItem[] = useSelector(
+    (state: FoodState) => state.foodStore.list
+  );
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
+
+  let filteredFoods = [] as FoodItem[];
 
   useEffect(() => {
     store.dispatch(fetchFoods());
   }, []);
 
-  // Filter foods based on search term
-  const filteredFoods = foods.filter((food) =>
+  // setTimeout(() => {
+  //   // Filter foods based on search term
+  //   filteredFoods = foods.filter((food) =>
+  //     food.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  // }, 500);
+
+  filteredFoods = foods.filter((food) =>
     food.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
+  
   const handleFoodClick: OnClickType = (food) => {
     setSelectedFood(food);
   };
@@ -40,12 +50,7 @@ const Homepage = () => {
         ))}
       </div>
 
-      {selectedFood && (
-        <FoodModal
-          food={selectedFood}
-          onClose={closeModal}
-        />
-      )}
+      {selectedFood && <FoodModal food={selectedFood} onClose={closeModal} />}
     </div>
   );
 };
